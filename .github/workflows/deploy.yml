@@ -21,10 +21,10 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run build
+        run: NODE_OPTIONS=--openssl-legacy-provider npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # Branch unde se va publica site-ul
-          folder: build  # Directorul unde React construiește aplicația
+          branch: gh-pages
+          folder: build
