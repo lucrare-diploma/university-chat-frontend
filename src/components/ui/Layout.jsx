@@ -9,23 +9,20 @@ const Layout = ({ children }) => {
       sx={{ 
         display: 'flex', 
         flexDirection: 'column', 
-        minHeight: '100vh', // ocupă tot ecranul
-        width: '100%'  // ocupă toată lățimea
+        minHeight: '100vh',
+        width: '100%'
       }}
     >
-      {/* Header-ul */}
       <Header />
 
-      {/* Zona de conținut responsive */}
       <Container 
         component="main" 
-        maxWidth="lg"  // ajustează breakpoint-ul după preferințe (xs, sm, md, lg, xl)
+        maxWidth="lg"
         sx={{ flexGrow: 1, mt: 2, mb: 2, width: '100%' }}
       >
         {children}
       </Container>
 
-      {/* Footer-ul */}
       <Footer />
     </Box>
   );
