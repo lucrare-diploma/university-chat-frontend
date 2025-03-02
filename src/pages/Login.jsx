@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await loginService(email, password);
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       console.error(error);
       alert('Login eșuat. Verifică datele introduse.');

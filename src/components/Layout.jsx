@@ -14,17 +14,17 @@ const Layout = () => {
       {/* Ruta pentru Login */}
       <Route
         path="/login"
-        element={ isAuthenticated() ? <Navigate to="/" /> : <Login /> }
+        element={ isAuthenticated() ? <Navigate to="/home" /> : <Login /> }
       />
       {/* Ruta principală pentru Home */}
       <Route
-        path="/"
+        path="/home"
         element={ isAuthenticated() ? <Home /> : <Navigate to="/login" /> }
       />
       {/* Redirecționează orice altă rută către "/" */}
       <Route
-        path="*"
-        element={<Navigate to="/" />}
+        path="/home"
+        element={<Navigate to="/home" />}
       />
     </Routes>
   );
