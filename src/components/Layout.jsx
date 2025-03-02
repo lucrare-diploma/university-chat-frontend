@@ -23,8 +23,8 @@ const Layout = () => {
       />
       {/* Redirecționează orice altă rută către "/" */}
       <Route
-        path="/home"
-        element={<Navigate to="/home" />}
+        path="*"
+        element={<Navigate to="/" />}
       />
     </Routes>
   );
