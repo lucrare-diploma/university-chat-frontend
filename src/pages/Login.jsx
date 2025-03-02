@@ -1,33 +1,32 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-  Button
-} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box, Card, CardContent, Typography, TextField, Button } from '@mui/material';
+import { login as loginService } from '../services/authService';
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // ... logica de login
+    try {
+      await loginService(email, password);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+      alert('Login eșuat. Verifică datele introduse.');
+    }
   };
 
   return (
-    // Box pe toată lățimea/înălțimea, centrat
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        width: '100%',
+        minHeight: '100vh',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f5f5f5' // sau altă culoare de fundal
+        backgroundColor: '#f5f5f5'
       }}
     >
       <Card sx={{ maxWidth: 400, width: '90%', mx: 'auto' }}>
@@ -64,6 +63,6 @@ function Login() {
       </Card>
     </Box>
   );
-}
+};
 
 export default Login;
