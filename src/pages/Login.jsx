@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Card, CardContent, Typography, TextField, Button } from '@mui/material';
 import { login as loginService } from '../services/authService';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await loginService(email, password);
+      onLogin(); // Actualizează starea de autentificare
       navigate('/home');
     } catch (error) {
       console.error(error);
