@@ -1,47 +1,46 @@
-import React, { useState, useEffect } from 'react';
+// src/components/Layout.jsx
+import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/Login';
 import Home from '../pages/Home';
+import Account from '../pages/Account';
+import Dashboard from './Dashboard';
+import AuthContext from '../context/AuthContext';
 
 const Layout = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Actualizează starea de autentificare când componenta se montează
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
-  }, []);
+  const { isAuthenticated } = useContext(AuthContext);
+  // (Opțional) adaugă un console.log pentru debugging:
+  console.log('Layout: isAuthenticated =', isAuthenticated);
 
   return (
     <Routes>
-      {/* Ruta pentru calea rădăcină */}
-      <Route
-        path="/"
-        element={<Navigate to={isAuthenticated ? "/home" : "/login"} />}
-      />
-      {/* Ruta pentru Login */}
-      <Route
-        path="/login"
-        element={
-          isAuthenticated 
-            ? <Navigate to="/home" /> 
-            : <Login onLogin={() => setIsAuthenticated(true)} />
-        }
-      />
-      {/* Ruta pentru Home */}
+      <Route path="/" element={<Navigate to={isAuthenticated ? '/home' : '/login'} />} />
+      <Route path="/login" element={isAuthenticated ? <Navigate to="/home" /> : <Login />} />
       <Route
         path="/home"
         element={
-          isAuthenticated 
-            ? <Home onLogout={() => setIsAuthenticated(false)} /> 
-            : <Navigate to="/login" />
+          isAuthenticated ? (
+            <Dashboard>
+              <Home />
+            </Dashboard>
+          ) : (
+            <Navigate to="/login" />
+          )
         }
       />
-      {/* Orice altă rută */}
       <Route
-        path="*"
-        element={<Navigate to="/" />}
+        path="/account"
+        element={
+          isAuthenticated ? (
+            <Dashboard>
+              <Account />
+            </Dashboard>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
       />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

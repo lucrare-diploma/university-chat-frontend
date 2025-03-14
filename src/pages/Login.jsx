@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Card, CardContent, Typography, TextField, Button } from '@mui/material';
 import { login as loginService } from '../services/authService';
+import AuthContext from '../context/AuthContext';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await loginService(email, password);
-      onLogin(); // Actualizează starea de autentificare
-      navigate('/home');
+      const res = await loginService(email, password);
+      if (res && res.response.access_token) {
+        // Actualizează contextul de autentificare
+        login(res.response.access_token);
+        navigate('/home', { replace: true });
+      } else {
+        alert("Login eșuat. Verifică datele introduse.");
+      }
     } catch (error) {
-      console.error(error);
-      alert('Login eșuat. Verifică datele introduse.');
+      console.error("Error in handleSubmit:", error);
+      alert("Login eșuat. Verifică datele introduse.");
     }
   };
 
@@ -27,7 +34,7 @@ const Login = ({ onLogin }) => {
         minHeight: '100vh',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f5f5f5'
+        backgroundColor: '#f5f5f5',
       }}
     >
       <Card sx={{ maxWidth: 400, width: '90%', mx: 'auto' }}>
