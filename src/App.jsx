@@ -17,7 +17,9 @@ function App() {
         }}
       >
         <Header />
-        <Box component="main" sx={{ overflowY: 'auto' }}>
+        <Box component="main" sx={{ 
+          overflow: 'hidden'
+        }}>
           <Layout />
         </Box>
         <Footer />

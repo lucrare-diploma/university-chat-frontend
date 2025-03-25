@@ -1,59 +1,56 @@
-import React, { useState } from 'react';
-import { Box, IconButton, List, ListItem, ListItemIcon, ListItemText, Collapse, Divider } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+// src/components/Dashboard.jsx
+import React from 'react';
+import { Box, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ChatIcon from '@mui/icons-material/Chat';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = ({ children }) => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   return (
-    <Box sx={{ display: 'flex', height: '100%', backgroundColor: 'var(--background-color)' }}>
-      {/* Meniul din stânga */}
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: '240px 1fr',
+        height: '100vh', // ocupă întreaga înălțime a ecranului
+        overflow: 'hidden', // împiedică scroll global
+      }}
+    >
+      {/* Coloana stângă: Meniul fix */}
       <Box
         sx={{
-          width: open ? 240 : 60,
-          transition: 'width 0.3s ease',
+          backgroundColor: '#ffffff',
           borderRight: '1px solid #ddd',
+          p: 2,
           overflow: 'hidden',
-          backgroundColor: 'var(--background-color)'
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: open ? 'space-between' : 'center',
-            p: 1,
-          }}
-        >
-          {open && <Box component="span" sx={{ fontWeight: 'bold' }}>Meniu</Box>}
-          <IconButton onClick={handleToggle}>
-            {open ? <MenuOpenIcon /> : <MenuIcon />}
-          </IconButton>
-        </Box>
-        <Divider />
         <List>
           <ListItem button onClick={() => navigate('/account')}>
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <ListItemText primary="Account" />
-            </Collapse>
+            <ListItemText primary="Account" />
           </ListItem>
-          {/* Alte elemente de meniu pot fi adăugate aici */}
+          <Divider sx={{ my: 1 }} />
+          <ListItem button onClick={() => navigate('/dm')}>
+            <ListItemIcon>
+              <ChatIcon />
+            </ListItemIcon>
+            <ListItemText primary="DM" />
+          </ListItem>
+          {/* Poți adăuga și alte elemente de meniu */}
         </List>
       </Box>
 
-      {/* Zona de conținut principală */}
-      <Box sx={{ flexGrow: 1, p: 2 }}>
+      {/* Coloana dreaptă: Zona de conținut scrollabilă */}
+      <Box
+        sx={{
+          overflowY: 'auto',
+          p: 2,
+        }}
+      >
         {children}
       </Box>
     </Box>
